@@ -7,27 +7,5 @@ compatibility_flags = ["nodejs_compat"]
 JWT_SECRET = "default-secret-change-in-production-50793fc84ea780240c9a602aa9c692b08952a02809486dfb32d83c181177dc3a"
 APP_ENV = "production"
 
-[[kv_namespaces]]
-binding = "WORLD_STATE"
-id = ""
-
-[[d1_databases]]
-binding = "DATABASE"
-database_name = "dol-multiplayer-db"
-database_id = ""
-migrations_dir = "./migrations"
-
-[[durable_objects.bindings]]
-name = "PLAYER_DO"
-class_name = "PlayerDO"
-
-[[durable_objects.bindings]]
-name = "ROOM_DO"
-class_name = "RoomDO"
-
-[[durable_objects.bindings]]
-name = "WORLD_DO"
-class_name = "WorldDO"
-
 [deploy]
 workers_dev = true
