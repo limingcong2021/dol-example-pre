@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Degrees of Lewdity</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{height:100vh;display:flex;flex-direction:column;background:#000}
+.header-bar{background:#1a1a2e;color:#fff;padding:8px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #333;font-family:Arial,sans-serif;font-size:14px}
+.online-count{display:flex;align-items:center;gap:8px}
+.online-badge{background:#22c55e;color:#fff;padding:2px 8px;border-radius:10px;font-weight:bold;font-size:12px}
+.online-dot{width:8px;height:8px;background:#22c55e;border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
+.game-container{flex:1;position:relative}
+.game-container iframe{width:100%;height:100%;border:none}
+</style>
+</head>
+<body>
+<div class="header-bar">
+<div>Degrees of Lewdity</div>
+<div class="online-count">
+<span>在线玩家</span>
+<span class="online-dot"></span>
+<span class="online-badge" id="online-count">0</span>
+</div>
+</div>
+<div class="game-container">
+<iframe src="Degrees of Lewdity.html"></iframe>
+</div>
+<script>
+var backendUrl='https://dol-multiplayer.workers.dev';
+var onlineCountEl=document.getElementById('online-count');
+function fetchOnlineCount(){
+  fetch(backendUrl+'/api/online-count').then(function(res){return res.json()}).then(function(data){
+    onlineCountEl.textContent=data.count||0;
+  }).catch(function(err){
+    console.error('Failed to fetch online count:',err);
+  });
+}
+fetchOnlineCount();
+setInterval(fetchOnlineCount,10000);
+</script>
+</body>
+</html>
