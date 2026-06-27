@@ -4,8 +4,8 @@ compatibility_date = "2024-01-01"
 compatibility_flags = ["nodejs_compat"]
 
 [vars]
-JWT_SECRET = "$JWT_SECRET"
-APP_ENV = "$APP_ENV"
+JWT_SECRET = "default-secret-change-in-production-50793fc84ea780240c9a602aa9c692b08952a02809486dfb32d83c181177dc3a"
+APP_ENV = "production"
 
 [[d1_databases]]
 binding = "DATABASE"

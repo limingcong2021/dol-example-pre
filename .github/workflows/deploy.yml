@@ -27,6 +27,3 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           command: deploy --minify
-          secrets: |
-            JWT_SECRET=${{ secrets.JWT_SECRET }}
-            APP_ENV=${{ secrets.APP_ENV || 'production' }}
