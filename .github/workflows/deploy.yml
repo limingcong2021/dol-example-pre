@@ -1,11 +1,7 @@
-name: Deploy to Cloudflare Pages
+name: Deploy to GitHub Pages
 
 on:
   push:
-    branches:
-      - main
-      - master
-  pull_request:
     branches:
       - main
       - master
@@ -16,7 +12,11 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      deployments: write
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -24,12 +24,14 @@ jobs:
       - name: Copy entry HTML to index.html
         run: cp "Degrees of Lewdity.html" index.html
 
-      - name: Deploy to Cloudflare Pages
-        uses: cloudflare/pages-action@v1
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: ${{ secrets.CLOUDFLARE_PROJECT_NAME }}
-          directory: .
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-          preview: ${{ github.event_name == 'pull_request' }}
+          path: .
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
