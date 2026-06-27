@@ -1,0 +1,36 @@
+name = "dol-multiplayer"
+main = "src/index.ts"
+compatibility_date = "2024-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+JWT_SECRET = "$JWT_SECRET"
+APP_ENV = "$APP_ENV"
+
+[[d1_databases]]
+binding = "DATABASE"
+database_name = "dol-multiplayer-db"
+database_id = ""
+
+[[kv_namespaces]]
+binding = "WORLD_STATE"
+id = ""
+
+[[durable_objects.bindings]]
+name = "PLAYER_DO"
+class_name = "PlayerDO"
+
+[[durable_objects.bindings]]
+name = "ROOM_DO"
+class_name = "RoomDO"
+
+[[durable_objects.bindings]]
+name = "WORLD_DO"
+class_name = "WorldDO"
+
+[workers_dev]
+kv_namespaces = ["WORLD_STATE"]
+d1_databases = ["DATABASE"]
+
+[deploy]
+workers_dev = true

@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Deploy Backend to Cloudflare Workers
 
 on:
   push:
@@ -12,26 +12,25 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      deployments: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Copy entry HTML to index.html
-        run: cp "Degrees of Lewdity.html" index.html
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          path: .
+          node-version: 20
+          cache: npm
 
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Install dependencies
+        run: npm install
+
+      - name: Deploy to Cloudflare Workers
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          command: deploy --minify
+          secrets: |
+            JWT_SECRET=${{ secrets.JWT_SECRET }}
+            APP_ENV=${{ secrets.APP_ENV || 'production' }}
